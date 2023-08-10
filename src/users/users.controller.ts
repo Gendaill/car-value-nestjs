@@ -24,14 +24,28 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
+  @Get('/whoami')
+  whoAmI(@Session() session: any) {
+    return this.usersService.findOne(session.userId);
+  }
+
+  @Post('/signout')
+  async signout(@Session() session: any) {
+    session.userId = null;
+  }
+
   @Post('/singup')
-  createUser(@Body() body: CreateUserDto) {
-    return this.authService.singup(body.email, body.password);
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.singup(body.email, body.password);
+    session.userId = user.id;
+    return user;
   }
 
   @Post('/singin')
-  singin(@Body() body: CreateUserDto) {
-    return this.authService.singin(body.email, body.password);
+  async singin(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.singin(body.email, body.password);
+    session.userId = user.id;
+    return user;
   }
 
   @Get('/:id')

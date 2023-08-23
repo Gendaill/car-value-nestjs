@@ -39,16 +39,16 @@ export class UsersController {
     session.userId = null;
   }
 
-  @Post('/singup')
+  @Post('/signup')
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.singup(body.email, body.password);
+    const user = await this.authService.signup(body.email, body.password);
     session.userId = user.id;
     return user;
   }
 
-  @Post('/singin')
-  async singin(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.singin(body.email, body.password);
+  @Post('/signin')
+  async signin(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
     session.userId = user.id;
     return user;
   }

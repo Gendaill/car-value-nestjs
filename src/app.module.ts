@@ -41,11 +41,12 @@ import * as cookieParser from 'cookie-parser';
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService) {}
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         session({
-          secret: 'secret',
+          secret: [this.configService.get('COOKIE_KEY')],
           resave: false,
           saveUninitialized: false,
         }),
